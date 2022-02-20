@@ -116,7 +116,7 @@ class ContactCollection extends React.Component {
                     <tbody>
                         {items.map((item, i) => (
                             <tr>
-                                <td className="Hide-Column" key={item.contactId}>{item.contactId}</td>
+                                <td className="Hide-Column" id={item.contactId} key={item.contactId}>td-item-{item.contactId}</td>
                                 <td>{item.firstName}</td>
                                 <td>{item.lastName}</td>
                                 <td>{item.city}</td>

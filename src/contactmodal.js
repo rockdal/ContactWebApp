@@ -21,6 +21,7 @@ export default class ContactModal extends React.Component {
 
   pullResult = (result) => {
     console.log(result);
+    
   }
   createForm = (data) => {
     return ( <AddForm data={data} func={this.pullResult}/>)

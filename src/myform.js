@@ -3,29 +3,52 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import StateSelect from "./stateselect";
 import $ from 'jquery';
 
-var isSuccessStatusCode = false;
-var returnJSON = {};
-
 const submitCreate= (values, func, method) => {
-    // post data to server    
-    values.stateCode = $( "#stateCode" ).val();
-    fetch("/Contact",
-    {   method:method,
-        mode: 'cors',
-        headers:{
-            'Access-Control-Allow-Origin':'*',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values).replace( /</g, '\\u003c')   //escape HTML signifcant values
-    })
-    .then((res) => res.json())
-    .then((json) => {
-        console.log(json);
-        isSuccessStatusCode = json.isSuccessStatusCode;
-        returnJSON = json;
-    });
-
-    func(returnJSON);
+    // post data to server 
+    var precede = true;
+    if (method === "DELETE") {
+        $( function() {
+            $( "body" ).add( "div" ).html( "Are you sure?" );
+            $( "#dialog-confirm" ).dialog({
+              resizable: false,
+              height: "auto",
+              width: 400,
+              modal: true,
+              buttons: {
+                "Delete": function() {
+                  $( this ).dialog( "close" );
+                },
+                Cancel: function() {
+                  $( this ).dialog( "close" );
+                  precede = false;
+                }
+              }
+            });
+          } );
+    }
+    if (precede)  {
+        values.stateCode = $( "#stateCode" ).val();
+        fetch("/Contact",
+        {   method:method,
+            mode: 'cors',
+            headers:{
+                'Access-Control-Allow-Origin':'*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(values).replace( /</g, '\\u003c')   //escape HTML signifcant values
+        })
+        .then((res) => res.json())
+        .then((json) => {
+            //func(json);
+            if (method === "DELETE") {
+                $('#tblContact').row("#tr-item-" + json.contactId).remove().draw(true);
+            } else if (method === 'ADD') {
+                $('#tblContact').row.add(json).draw(true);
+            } else {
+                $('#tblContact').row("#tr-item-" + json.contactId).data(json).draw(true);
+            }
+        });
+    }
 }
 
 export default class MyForm extends React.Component {
@@ -106,9 +129,6 @@ export default class MyForm extends React.Component {
               // post data to server
               setSubmitting(false);
               submitCreate(values, this.props.func, this.props.method);   
-              if (isSuccessStatusCode) {
-                  $(".modal-parent").remove();
-              }     
             }}
           >
             {({ isSubmitting, dirty, handleReset }) => (
