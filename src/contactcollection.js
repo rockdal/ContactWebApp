@@ -131,7 +131,7 @@ class ContactCollection extends React.Component {
                                             this.setAction("Edit");
                                             this.showModal(e);
                                             this.handleChoosedRow(item)
-                                        }}>Edit</button>
+                                    }}>Edit</button>
                                     <button
                                         id='btn-delete-{item.contactId}' 
                                         name='btn-delete-{item.contactId}'                                
@@ -140,7 +140,7 @@ class ContactCollection extends React.Component {
                                             this.setAction("Delete");
                                             this.showModal(e);
                                             this.handleChoosedRow(item)
-                                        }} >Delete</button>
+                                    }} >Delete</button>
                                  </td>
                             </tr>
                         ))}

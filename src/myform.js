@@ -42,12 +42,24 @@ const submitCreate= (values, func, method) => {
             //func(json);
             if (method === "DELETE") {
                 $('#tblContact').row("#tr-item-" + json.contactId).remove().draw(true);
-            } else if (method === 'ADD') {
-                $('#tblContact').row.add(json).draw(true);
+            } else if (method === 'POST') {
+                $('#tblContact').row.add(parseJSON(json)).draw(true);
             } else {
-                $('#tblContact').row("#tr-item-" + json.contactId).data(json).draw(true);
+                $('#tblContact').row("#tr-item-" + json.contactId).edit(parseJSON(json)).draw(true);
             }
         });
+    }
+}
+
+const parseJSON = (json) => {
+    return {
+        contactId: json.contactId,
+        firstName: json.firstName,
+        lastName: json.lastName,
+        city: json.city,
+        tateCode: json.stateCode,
+        phoneNumber: json.phoneNumber,
+        button: "<button>Edit</button><button>Delete</button>"
     }
 }
 
