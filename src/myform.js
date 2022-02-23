@@ -57,7 +57,7 @@ const parseJSON = (json) => {
         firstName: json.firstName,
         lastName: json.lastName,
         city: json.city,
-        tateCode: json.stateCode,
+        stateCode: json.stateCode,
         phoneNumber: json.phoneNumber,
         button: "<button>Edit</button><button>Delete</button>"
     }

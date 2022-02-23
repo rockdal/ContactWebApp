@@ -19,7 +19,7 @@ export default class DeleteForm extends React.Component {
                 contact={this.props.data} 
                 func={this.props.func} 
                 buttonText={"Delete Contact"} 
-                disable={true}
+                disabled={true}
                 method={'DELETE'}
             />
         );
